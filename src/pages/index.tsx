@@ -1,3 +1,5 @@
+import TodoContent from "@/components/Pages/Todos";
+
 export default function Home() {
-  return <div>Hello World</div>;
+  return <TodoContent />
 }

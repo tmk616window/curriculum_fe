@@ -5,7 +5,7 @@ const { defineConfig } = require('orval')
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   apiClient: {
-    input: './../server/docs/openapi.yaml',
+    input: './../go-todo/server/doc/openapi.yaml',
     output: {
       client: 'react-query',
       mode: 'split',

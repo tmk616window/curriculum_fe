@@ -4,7 +4,7 @@
 import Axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { API_BASE_URL } from '@/constants/env'
 
-export const AXIOS_INSTANCE = Axios.create({ baseURL: API_BASE_URL, timeout: 30000 })
+export const AXIOS_INSTANCE = Axios.create({ baseURL: API_BASE_URL ? API_BASE_URL : 'http://localhost:8001', timeout: 30000 })
 
 export const useCustomInstance = <T>(): ((config: AxiosRequestConfig) => Promise<T>) => {
   return async (config: AxiosRequestConfig) => {
