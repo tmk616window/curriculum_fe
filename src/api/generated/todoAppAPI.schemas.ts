@@ -5,6 +5,17 @@
  * An API for managing todo items.
  * OpenAPI spec version: 1.0.0
  */
+export type GetTodosParams = {
+/**
+ * The number of items to return
+ */
+limit?: number;
+/**
+ * The number of items to skip before starting to collect the result set
+ */
+offset?: number;
+};
+
 export interface ErrorResponse {
   error: string;
 }

@@ -27,6 +27,7 @@ import {
 import type {
   CreateTodoInput,
   ErrorResponse,
+  GetTodosParams,
   Todo
 } from './todoAppAPI.schemas'
 import { useCustomInstance } from '../../libs/axios/index';
@@ -41,32 +42,33 @@ export const useGetTodosHook = () => {
         const getTodos = useCustomInstance<Todo[]>();
 
         return useCallback((
-    
+    params?: GetTodosParams,
  signal?: AbortSignal
 ) => {
         return getTodos(
-          {url: `/todos`, method: 'GET', signal
+          {url: `/todos`, method: 'GET',
+        params, signal
     },
           );
         }, [getTodos])
       }
     
 
-export const getGetTodosQueryKey = () => {
-    return [`/todos`] as const;
+export const getGetTodosQueryKey = (params?: GetTodosParams,) => {
+    return [`/todos`, ...(params ? [params]: [])] as const;
     }
 
     
-export const useGetTodosQueryOptions = <TData = Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError = ErrorType<ErrorResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>>, }
+export const useGetTodosQueryOptions = <TData = Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError = ErrorType<ErrorResponse>>(params?: GetTodosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTodosQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetTodosQueryKey(params);
 
   const getTodos =  useGetTodosHook();
 
-    const queryFn: QueryFunction<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>> = ({ signal }) => getTodos(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>> = ({ signal }) => getTodos(params, signal);
 
       
 
@@ -80,7 +82,7 @@ export type GetTodosQueryError = ErrorType<ErrorResponse>
 
 
 export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError = ErrorType<ErrorResponse>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>> & Pick<
+ params: undefined |  GetTodosParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>,
           TError,
@@ -90,7 +92,7 @@ export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetT
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError = ErrorType<ErrorResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>> & Pick<
+ params?: GetTodosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>,
           TError,
@@ -100,7 +102,7 @@ export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetT
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError = ErrorType<ErrorResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>>, }
+ params?: GetTodosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 /**
@@ -108,11 +110,11 @@ export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetT
  */
 
 export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError = ErrorType<ErrorResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>>, }
+ params?: GetTodosParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodosHook>>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = useGetTodosQueryOptions(options)
+  const queryOptions = useGetTodosQueryOptions(params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
