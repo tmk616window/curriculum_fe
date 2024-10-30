@@ -21,11 +21,11 @@ export interface ErrorResponse {
 }
 
 export interface CreateTodoInput {
-  description?: string;
-  labelIDs?: number[];
-  priorityID?: number;
-  statusID?: number;
-  title?: string;
+  description: string;
+  labelIDs: number[];
+  priorityID: number;
+  statusID: number;
+  title: string;
 }
 
 export interface Label {

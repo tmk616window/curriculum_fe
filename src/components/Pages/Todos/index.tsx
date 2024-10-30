@@ -1,5 +1,6 @@
-import { useGetTodos } from '@/api/generated/todoAppAPI'
+import { useGetTodos, usePostTodo } from '@/api/generated/todoAppAPI'
 import TodoList from '@/components/feature/todoList/todoList'
+import { Button } from '@mui/material'
 
 const TodoContent: React.FC = ({
 }) => {
@@ -16,8 +17,20 @@ const TodoContent: React.FC = ({
     return <div>Error: {error.message}</div>
   }
 
+  const { mutate } = usePostTodo({})
+  const reselt = mutate({ data: { title: 'test', description: '', labelIDs: [1], priorityID: 1, statusID: 1, } })
+
   return (
-    <TodoList todoList={data || []} />
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => { reselt }}
+      >
+        追加
+      </Button >
+      <TodoList todoList={data || []} />
+    </>
   )
 }
 

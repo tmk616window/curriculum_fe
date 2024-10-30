@@ -21,4 +21,12 @@ export default defineConfig({
       },
     },
   },
+  zod: {
+    input: './../go-todo/server/doc/openapi.yaml',
+    output: {
+      mode: 'split',
+      client: 'zod',
+      target: './src/api/generated/zod',
+    },
+  },
 })
