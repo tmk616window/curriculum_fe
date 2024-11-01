@@ -5,7 +5,7 @@ import { AxiosError } from "axios"
 import { useCallback } from "react"
 
 
-export const useCreateTodo = (queryKey: QueryKey, data: Todo[] | undefined) => {
+export const useCreateTodo = () => {
   const { mutateAsync, isSuccess } = usePostTodo()
   const handleCreateTodo = useCallback(async (input: CreateTodoInput) => {
     try {

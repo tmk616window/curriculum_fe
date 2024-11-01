@@ -7,13 +7,11 @@ import { useCallback } from 'react'
 
 const TodoContent: React.FC = ({
 }) => {
-  const { data, error, isLoading, refetch, queryKey } = useGetTodos({
+  const { data, error, isLoading, refetch } = useGetTodos({
     limit: 10,
     offset: 0,
   })
-  const { handleCreateTodo } = useCreateTodo(queryKey, data)
-  const queryClient = useQueryClient();
-  const todos = queryClient.getQueryData(queryKey)
+  const { handleCreateTodo } = useCreateTodo()
 
   const handleCreate = useCallback(async () => {
     const isSuccess = await handleCreateTodo({
@@ -25,8 +23,7 @@ const TodoContent: React.FC = ({
     })
 
     if (isSuccess) {
-      console.log(
-      )
+      refetch()
     }
   }, [handleCreateTodo])
 
