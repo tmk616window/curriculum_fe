@@ -1,6 +1,6 @@
+import { defineConfig } from 'orval'
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
-const { defineConfig } = require('orval')
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
@@ -9,6 +9,7 @@ export default defineConfig({
     output: {
       client: 'react-query',
       mode: 'split',
+      prettier: true,
       target: './src/api/generated',
       override: {
         mutator: {

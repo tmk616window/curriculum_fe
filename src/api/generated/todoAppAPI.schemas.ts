@@ -28,6 +28,10 @@ export interface CreateTodoInput {
   title: string;
 }
 
+export interface CreateTodoResponse {
+  id: number;
+}
+
 export interface Label {
   id: number;
   value: string;

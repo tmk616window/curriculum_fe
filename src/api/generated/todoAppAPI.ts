@@ -26,6 +26,7 @@ import {
 } from 'react'
 import type {
   CreateTodoInput,
+  CreateTodoResponse,
   ErrorResponse,
   GetTodosParams,
   Todo
@@ -130,7 +131,7 @@ export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetT
  * @summary Create a new todo item
  */
 export const usePostTodoHook = () => {
-        const postTodo = useCustomInstance<Todo>();
+        const postTodo = useCustomInstance<CreateTodoResponse>();
 
         return useCallback((
     createTodoInput: CreateTodoInput,
