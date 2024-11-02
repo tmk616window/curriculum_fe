@@ -8,31 +8,34 @@ import { MultiSelectAutocomplete } from "@/components/common/MultiSelectAutocomp
 import { CreateTodoInput, Label, Priority, Status } from "@/api/generated/todoAppAPI.schemas";
 import { Select } from "@/components/common/Select/Select";
 import { SubmitHandler } from "react-hook-form";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
 
 type todoCreateDialogProps = {
   labels: Label[]
   status: Status[]
   priorities: Priority[]
+  queryKey: QueryKey
 }
 
-export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, status, priorities }) => {
+export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, status, priorities, queryKey }) => {
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
   const { control, reset, handleSubmit } = useForm<CreateTodoInput>({ schema: postTodoBody })
-
   const { handleCreateTodo } = useCreateTodo()
 
   const handleCreate = useCallback<SubmitHandler<CreateTodoInput>>(async (data) => {
     const isSuccess = await handleCreateTodo(data)
     if (isSuccess) {
-      setOpen(false)
       reset()
+      queryClient.invalidateQueries({ queryKey });
+      setOpen(false)
     }
   }, [handleCreateTodo])
 
 
   const handleClose = useCallback(() => {
-    setOpen(false)
     reset()
+    setOpen(false)
   }, [reset])
 
   return (

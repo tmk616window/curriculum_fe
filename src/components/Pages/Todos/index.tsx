@@ -7,26 +7,10 @@ import { useCallback } from 'react'
 
 const TodoContent: React.FC = ({
 }) => {
-  const { data, error, isLoading, refetch } = useGetTodos({
+  const { data, error, isLoading, queryKey } = useGetTodos({
     limit: 10,
     offset: 0,
   })
-
-  const { handleCreateTodo } = useCreateTodo()
-
-  const handleCreate = useCallback(async () => {
-    const isSuccess = await handleCreateTodo({
-      title: 'test1112345',
-      description: 'aaaa',
-      labelIDs: [1],
-      priorityID: 1,
-      statusID: 1
-    })
-
-    if (isSuccess) {
-      refetch()
-    }
-  }, [handleCreateTodo])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -69,6 +53,7 @@ const TodoContent: React.FC = ({
             value: 'status2'
           }
         ]}
+        queryKey={queryKey}
       />
       <TodoList todoList={data || []} />
     </>
