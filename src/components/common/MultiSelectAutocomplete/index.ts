@@ -1,1 +1,1 @@
-export { MultiSelectAutocomplete } from './MultiSelectAutocomplete';
+export * from './MultiSelectAutocomplete';
