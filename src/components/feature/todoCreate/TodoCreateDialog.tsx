@@ -1,8 +1,9 @@
 import { useForm } from "@/hooks/useForm";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useCreateTodo } from "./useCreateTodo";
 import { postTodoBody } from "@/api/generated/zod/todoAppAPI";
+import { TextField } from "@/components/common/TextField";
 
 
 
@@ -36,16 +37,21 @@ export const TodoCreateDialog = (props: todoCreateDialogProps) => {
       <Dialog open={open} >
         <DialogTitle>Create Todo</DialogTitle>
         <DialogContent>
-          <TextField
-            label="Title"
-          />
-          <TextField
-            label="Description"
-          />
+          <FormControl>
+            <TextField
+              name="title"
+              control={control}
+            />
+            <TextField
+              name="description"
+              control={control}
+            />
+
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>閉じる</Button>
-          <Button onClick={handleCreate} >
+          <Button onClick={handleCreate} type="submit" >
             作成する
           </Button>
         </DialogActions>

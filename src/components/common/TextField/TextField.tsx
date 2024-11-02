@@ -1,25 +1,26 @@
 import React from "react";
-import { Input as MuiInput, SxProps } from "@mui/material";
+import { TextField as MuiTextField, SxProps } from "@mui/material";
 import { Control, Controller, FieldValues } from "react-hook-form";
 
-type InputProps = {
+type TextFieldProps = {
   name: string;
   control: Control<FieldValues, any>;
-  sxProps: SxProps
-  children: React.ReactNode;
+  sxProps?: SxProps
 };
 
-export const Input: React.FC<InputProps> = ({ name, control, sxProps }) => {
+export const TextField: React.FC<TextFieldProps> = ({ name, control, sxProps }) => {
   return (
     <Controller
       name={name}
       defaultValue=""
       control={control}
       render={({ field, formState: { errors } }) => (
-        <MuiInput
+        <MuiTextField
           {...field}
           sx={sxProps}
           fullWidth
+          title={name}
+          variant="outlined"
           error={errors.text ? true : false}
         />
       )}
