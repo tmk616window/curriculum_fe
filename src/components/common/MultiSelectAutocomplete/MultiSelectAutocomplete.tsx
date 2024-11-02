@@ -1,24 +1,23 @@
 import { Autocomplete, TextField, Checkbox, ListItem } from "@mui/material";
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
 import { Label } from "@/api/generated/todoAppAPI.schemas";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { useState } from "react";
 
-type MultiSelectAutocompleteProps = {
-  name: string;
+type MultiSelectAutocompleteProps<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
-  labels: Label[]
-  control: Control<FieldValues, any>;
-}
+  labels: Label[];
+  control: Control<T>;
+};
 
-export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = ({ name, label, labels, control }) => {
+export const MultiSelectAutocomplete = <T extends FieldValues>({ name, label, labels, control }: MultiSelectAutocompleteProps<T>) => {
   const [open, setOpen] = useState(false);
 
   return (
     <Controller
       name={name}
-      defaultValue=""
       control={control}
       render={({ field: { value, onBlur, onChange } }) => (
         <Autocomplete
@@ -27,12 +26,12 @@ export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = (
           id="checkboxes-tags"
           options={labels}
           open={open}
-          value={labels.filter((label) => value.includes(label.id))}
+          value={labels.filter((label) => Array.isArray(value) && value.includes(label.id))}
           onOpen={() => setOpen(true)}
           disableCloseOnSelect
           onChange={(_, newValue) => {
-            onChange(newValue.map((label) => label.id))
-            setOpen(false)
+            onChange(newValue.map((label) => label.id));
+            setOpen(false);
           }}
           getOptionLabel={(option) => option.value}
           renderOption={(props, option, { selected }) => {
@@ -51,7 +50,7 @@ export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = (
           }}
           style={{ width: 500 }}
           renderInput={(params) => (
-            <TextField {...params} label="Checkboxes" placeholder="Favorites" />
+            <TextField {...params} label={label} placeholder="Favorites" />
           )}
         />
       )}

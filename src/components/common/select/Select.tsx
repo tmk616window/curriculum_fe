@@ -1,26 +1,27 @@
 import React from "react";
 import { FormControl, InputLabel, Select as MuiSelect } from "@mui/material";
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
 
-type SelectProps = {
+type SelectProps<T extends FieldValues> = {
   label: string;
-  name: string;
-  control: Control<FieldValues, any>;
+  name: Path<T>;
+  control: Control<T>;
   children: React.ReactNode;
 };
 
-export const Select: React.FC<SelectProps> = ({ label, name, control, children }) => {
+export const Select = <T extends FieldValues>({ label, name, control, children }: SelectProps<T>) => {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <InputLabel id={`${name}-label`}>{label}</InputLabel>
       <Controller
         name={name}
         control={control}
+        defaultValue={undefined as PathValue<T, Path<T>>} // defaultValue に適切な型を設定
         render={({ field }) => (
           <MuiSelect
             {...field}
             label={label}
-            value={field.value ?? ""}
+            value={field.value ?? ""} // value にデフォルト値を設定
           >
             {children}
           </MuiSelect>
@@ -29,4 +30,3 @@ export const Select: React.FC<SelectProps> = ({ label, name, control, children }
     </FormControl>
   );
 };
-

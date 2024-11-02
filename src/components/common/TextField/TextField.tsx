@@ -1,30 +1,26 @@
-import React from "react";
-import { TextField as MuiTextField, SxProps } from "@mui/material";
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { TextField as MuiTextField } from "@mui/material";
 
-type TextFieldProps = {
-  name: string;
-  control: Control<FieldValues, any>;
-  sxProps?: SxProps
+type TextFieldProps<T extends FieldValues> = {
+  name: Path<T>;
+  control: Control<T>;
 };
 
-export const TextField: React.FC<TextFieldProps> = ({ name, control, sxProps }) => {
+export const TextField = <T extends FieldValues>({ name, control }: TextFieldProps<T>) => {
   return (
     <Controller
       name={name}
-      defaultValue=""
       control={control}
       render={({ field, formState: { errors } }) => (
         <MuiTextField
           {...field}
-          sx={sxProps}
+          defaultValue={field.value ?? ""}
           fullWidth
           label={name}
           variant="outlined"
-          error={errors.text ? true : false}
+          error={!!errors[name]?.message}
         />
       )}
     />
   );
 };
-

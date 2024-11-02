@@ -5,10 +5,9 @@ import { useCreateTodo } from "./useCreateTodo";
 import { postTodoBody } from "@/api/generated/zod/todoAppAPI";
 import { TextField } from "@/components/common/TextField";
 import { MultiSelectAutocomplete } from "@/components/common/MultiSelectAutocomplete";
-import { Label, Priority, Status } from "@/api/generated/todoAppAPI.schemas";
+import { CreateTodoInput, Label, Priority, Status } from "@/api/generated/todoAppAPI.schemas";
 import { Select } from "@/components/common/Select/Select";
-
-
+import { SubmitHandler } from "react-hook-form";
 
 type todoCreateDialogProps = {
   labels: Label[]
@@ -18,24 +17,18 @@ type todoCreateDialogProps = {
 
 export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, status, priorities }) => {
   const [open, setOpen] = useState(false)
-  const { control, reset } = useForm(postTodoBody)
+  const { control, reset, handleSubmit } = useForm<CreateTodoInput>({ schema: postTodoBody })
 
   const { handleCreateTodo } = useCreateTodo()
 
-  const handleCreate = useCallback(async () => {
-    const isSuccess = await handleCreateTodo({
-      title: 'test1112345',
-      description: 'aaaa',
-      labelIDs: [1],
-      priorityID: 1,
-      statusID: 1
-    })
-
+  const handleCreate = useCallback<SubmitHandler<CreateTodoInput>>(async (data) => {
+    const isSuccess = await handleCreateTodo(data)
     if (isSuccess) {
       setOpen(false)
       reset()
     }
   }, [handleCreateTodo])
+
 
   const handleClose = useCallback(() => {
     setOpen(false)
@@ -81,7 +74,7 @@ export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, stat
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>閉じる</Button>
-          <Button onClick={handleCreate} type="submit" >
+          <Button onClick={handleSubmit(async (data) => await handleCreate(data))} >
             作成する
           </Button>
         </DialogActions>

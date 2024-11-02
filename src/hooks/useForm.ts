@@ -1,9 +1,13 @@
 import { z } from "zod";
-import { useForm as useReactHookForm } from "react-hook-form";
+import { useForm as useReactHookForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export const useForm = (schema: z.ZodSchema) => {
-  return useReactHookForm({
+type UseFormProps = {
+  schema: z.ZodSchema;
+};
+
+export const useForm = <T extends {}>({ schema }: UseFormProps): UseFormReturn<T> => {
+  return useReactHookForm<T>({
     resolver: zodResolver(schema),
   });
 };
