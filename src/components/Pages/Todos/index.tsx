@@ -11,6 +11,7 @@ const TodoContent: React.FC = ({
     limit: 10,
     offset: 0,
   })
+
   const { handleCreateTodo } = useCreateTodo()
 
   const handleCreate = useCallback(async () => {
@@ -37,7 +38,38 @@ const TodoContent: React.FC = ({
 
   return (
     <>
-      <TodoCreateDialog />
+      <TodoCreateDialog
+        labels={[
+          {
+            id: 1,
+            value: 'label1'
+          },
+          {
+            id: 2,
+            value: 'label2'
+          }
+        ]}
+        priorities={[
+          {
+            id: 1,
+            name: 'priority1'
+          },
+          {
+            id: 2,
+            name: 'priority2'
+          }
+        ]}
+        status={[
+          {
+            id: 1,
+            value: 'status1'
+          },
+          {
+            id: 2,
+            value: 'status2'
+          }
+        ]}
+      />
       <TodoList todoList={data || []} />
     </>
   )

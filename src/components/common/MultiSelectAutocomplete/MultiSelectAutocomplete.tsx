@@ -1,45 +1,60 @@
-import React, { useState } from "react";
-import { Autocomplete, TextField, Chip } from "@mui/material";
+import { Autocomplete, TextField, Checkbox, ListItem } from "@mui/material";
 import { Control, Controller, FieldValues } from "react-hook-form";
-
-type label = {
-  id: number;
-  value: string;
-}
+import { Label } from "@/api/generated/todoAppAPI.schemas";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import { useState } from "react";
 
 type MultiSelectAutocompleteProps = {
   name: string;
-  labels: label[]
+  label: string;
+  labels: Label[]
   control: Control<FieldValues, any>;
 }
 
-export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = ({ name, labels, control }) => {
+export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = ({ name, label, labels, control }) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <Controller
       name={name}
       defaultValue=""
       control={control}
-      render={({ field }) => (
+      render={({ field: { value, onBlur, onChange } }) => (
         <Autocomplete
           multiple
-          {...field}
+          onBlur={onBlur}
+          id="checkboxes-tags"
           options={labels}
+          open={open}
+          value={labels.filter((label) => value.includes(label.id))}
+          onOpen={() => setOpen(true)}
+          disableCloseOnSelect
+          onChange={(_, newValue) => {
+            onChange(newValue.map((label) => label.id))
+            setOpen(false)
+          }}
           getOptionLabel={(option) => option.value}
+          renderOption={(props, option, { selected }) => {
+            const { key, ...optionProps } = props;
+            return (
+              <ListItem key={key} {...optionProps}>
+                <Checkbox
+                  icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                  checkedIcon={<CheckBoxIcon fontSize="small" />}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                />
+                {option.value}
+              </ListItem>
+            );
+          }}
+          style={{ width: 500 }}
           renderInput={(params) => (
-            <TextField {...params} label={name} variant="outlined" />
+            <TextField {...params} label="Checkboxes" placeholder="Favorites" />
           )}
-          renderTags={(value, getTagProps) =>
-            value.map((option, index) => (
-              <Chip
-                label={option.value}
-                {...getTagProps({ index })}
-                key={option.id}
-              />
-            ))
-          }
         />
       )}
     />
   );
 };
-

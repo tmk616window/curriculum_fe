@@ -3,21 +3,25 @@ import { FormControl, InputLabel, Select as MuiSelect } from "@mui/material";
 import { Control, Controller, FieldValues } from "react-hook-form";
 
 type SelectProps = {
-  title: string;
+  label: string;
   name: string;
   control: Control<FieldValues, any>;
   children: React.ReactNode;
 };
 
-export const Select: React.FC<SelectProps> = ({ title, name, control, children }) => {
+export const Select: React.FC<SelectProps> = ({ label, name, control, children }) => {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-select-small-label">{title}</InputLabel>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <MuiSelect {...field}>
+          <MuiSelect
+            {...field}
+            label={label}
+            value={field.value ?? ""}
+          >
             {children}
           </MuiSelect>
         )}

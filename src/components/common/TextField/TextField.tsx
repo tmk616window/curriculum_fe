@@ -19,7 +19,7 @@ export const TextField: React.FC<TextFieldProps> = ({ name, control, sxProps }) 
           {...field}
           sx={sxProps}
           fullWidth
-          title={name}
+          label={name}
           variant="outlined"
           error={errors.text ? true : false}
         />

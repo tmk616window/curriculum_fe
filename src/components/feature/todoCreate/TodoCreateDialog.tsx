@@ -1,17 +1,22 @@
 import { useForm } from "@/hooks/useForm";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, MenuItem } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useCreateTodo } from "./useCreateTodo";
 import { postTodoBody } from "@/api/generated/zod/todoAppAPI";
 import { TextField } from "@/components/common/TextField";
+import { MultiSelectAutocomplete } from "@/components/common/MultiSelectAutocomplete";
+import { Label, Priority, Status } from "@/api/generated/todoAppAPI.schemas";
+import { Select } from "@/components/common/Select/Select";
 
 
 
 type todoCreateDialogProps = {
-
+  labels: Label[]
+  status: Status[]
+  priorities: Priority[]
 }
 
-export const TodoCreateDialog = (props: todoCreateDialogProps) => {
+export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, status, priorities }) => {
   const [open, setOpen] = useState(false)
   const { control } = useForm(postTodoBody)
 
@@ -46,7 +51,26 @@ export const TodoCreateDialog = (props: todoCreateDialogProps) => {
               name="description"
               control={control}
             />
-
+            <Select
+              label="Priority"
+              name="priorityID"
+              control={control}
+            >
+              {priorities.map((p) => <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>)}
+            </Select>
+            <Select
+              label="Status"
+              name="statusID"
+              control={control}
+            >
+              {status.map((s) => <MenuItem key={s.id} value={s.id}>{s.value}</MenuItem>)}
+            </Select>
+            <MultiSelectAutocomplete
+              label="Labels"
+              name="labelIDs"
+              control={control}
+              labels={labels}
+            />
           </FormControl>
         </DialogContent>
         <DialogActions>
