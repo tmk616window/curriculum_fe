@@ -1,8 +1,8 @@
 import { useGetTodos } from '@/api/generated/todoAppAPI'
+import { TodoCreateDialog } from '@/components/feature/todoCreate/TodoCreateDialog'
 import { useCreateTodo } from '@/components/feature/todoCreate/useCreateTodo'
 import TodoList from '@/components/feature/todoList/todoList'
 import { Button } from '@mui/material'
-import { useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
 const TodoContent: React.FC = ({
@@ -37,13 +37,7 @@ const TodoContent: React.FC = ({
 
   return (
     <>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleCreate}
-      >
-        追加
-      </Button >
+      <TodoCreateDialog />
       <TodoList todoList={data || []} />
     </>
   )
