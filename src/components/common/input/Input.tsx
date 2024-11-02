@@ -13,13 +13,14 @@ const Input: React.FC<InputProps> = ({ name, control, sxProps }) => {
   return (
     <Controller
       name={name}
+      defaultValue=""
       control={control}
-      render={({ field: { onChange, onBlur, value } }) => (
+      render={({ field, formState: { errors } }) => (
         <MuiInput
+          {...field}
           sx={sxProps}
-          onBlur={onBlur}
-          onChange={onChange}
-          value={value}
+          fullWidth
+          error={errors.text ? true : false}
         />
       )}
     />
