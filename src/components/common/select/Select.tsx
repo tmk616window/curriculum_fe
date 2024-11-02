@@ -9,7 +9,7 @@ type SelectProps = {
   children: React.ReactNode;
 };
 
-const Select: React.FC<SelectProps> = ({ title, name, control, children }) => {
+export const Select: React.FC<SelectProps> = ({ title, name, control, children }) => {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
       <InputLabel id="demo-select-small-label">{title}</InputLabel>
@@ -26,4 +26,3 @@ const Select: React.FC<SelectProps> = ({ title, name, control, children }) => {
   );
 };
 
-export default Select;

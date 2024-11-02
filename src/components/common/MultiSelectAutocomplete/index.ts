@@ -1,0 +1,1 @@
+export { MultiSelectAutocomplete } from './MultiSelectAutocomplete';

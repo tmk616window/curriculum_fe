@@ -1,1 +1,1 @@
-import * as Input from './Select';
+export { Select } from './Select';

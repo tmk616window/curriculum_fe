@@ -9,7 +9,7 @@ type InputProps = {
   children: React.ReactNode;
 };
 
-const Input: React.FC<InputProps> = ({ name, control, sxProps }) => {
+export const Input: React.FC<InputProps> = ({ name, control, sxProps }) => {
   return (
     <Controller
       name={name}
@@ -27,4 +27,3 @@ const Input: React.FC<InputProps> = ({ name, control, sxProps }) => {
   );
 };
 
-export default Input;
