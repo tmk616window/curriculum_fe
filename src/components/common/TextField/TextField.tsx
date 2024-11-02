@@ -14,7 +14,8 @@ export const TextField = <T extends FieldValues>({ name, control }: TextFieldPro
       render={({ field, formState: { errors } }) => (
         <MuiTextField
           {...field}
-          defaultValue={field.value ?? ""}
+          value={field.value ?? ""}
+          onChange={field.onChange}
           fullWidth
           label={name}
           variant="outlined"
