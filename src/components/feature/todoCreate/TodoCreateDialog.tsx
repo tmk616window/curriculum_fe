@@ -18,7 +18,7 @@ type todoCreateDialogProps = {
 
 export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, status, priorities }) => {
   const [open, setOpen] = useState(false)
-  const { control } = useForm(postTodoBody)
+  const { control, reset } = useForm(postTodoBody)
 
   const { handleCreateTodo } = useCreateTodo()
 
@@ -33,8 +33,14 @@ export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, stat
 
     if (isSuccess) {
       setOpen(false)
+      reset()
     }
   }, [handleCreateTodo])
+
+  const handleClose = useCallback(() => {
+    setOpen(false)
+    reset()
+  }, [reset])
 
   return (
     <>
@@ -74,7 +80,7 @@ export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, stat
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>閉じる</Button>
+          <Button onClick={handleClose}>閉じる</Button>
           <Button onClick={handleCreate} type="submit" >
             作成する
           </Button>
