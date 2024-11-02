@@ -12,7 +12,7 @@ type todoCreateDialogProps = {
 
 export const TodoCreateDialog = (props: todoCreateDialogProps) => {
   const [open, setOpen] = useState(false)
-  const { register, handleSubmit, formState: { errors }, } = useForm(postTodoBody)
+  const { control } = useForm(postTodoBody)
 
   const { handleCreateTodo } = useCreateTodo()
 
