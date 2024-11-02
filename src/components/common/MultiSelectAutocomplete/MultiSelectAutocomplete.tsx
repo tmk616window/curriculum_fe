@@ -1,36 +1,44 @@
-// MultiSelectAutocomplete.tsx
 import React, { useState } from "react";
 import { Autocomplete, TextField, Chip } from "@mui/material";
+import { Control, Controller, FieldValues } from "react-hook-form";
 
-const options = [
-  { label: "Option 1", id: 1 },
-  { label: "Option 2", id: 2 },
-  { label: "Option 3", id: 3 },
-  { label: "Option 4", id: 4 },
-];
+type label = {
+  id: number;
+  value: string;
+}
 
-export const MultiSelectAutocomplete = () => {
-  const [selectedOptions, setSelectedOptions] = useState<{ label: string; id: number; }[]>([])
+type MultiSelectAutocompleteProps = {
+  name: string;
+  labels: label[]
+  control: Control<FieldValues, any>;
+}
 
+export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = ({ name, labels, control }) => {
   return (
-    <Autocomplete
-      multiple
-      options={options}
-      getOptionLabel={(option) => option.label}
-      onChange={(event, newValue) => setSelectedOptions(newValue)}
-      value={selectedOptions}
-      renderInput={(params) => (
-        <TextField {...params} label="Choose options" variant="outlined" />
+    <Controller
+      name={name}
+      defaultValue=""
+      control={control}
+      render={({ field }) => (
+        <Autocomplete
+          multiple
+          {...field}
+          options={labels}
+          getOptionLabel={(option) => option.value}
+          renderInput={(params) => (
+            <TextField {...params} label={name} variant="outlined" />
+          )}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <Chip
+                label={option.value}
+                {...getTagProps({ index })}
+                key={option.id}
+              />
+            ))
+          }
+        />
       )}
-      renderTags={(value, getTagProps) =>
-        value.map((option, index) => (
-          <Chip
-            label={option.label}
-            {...getTagProps({ index })}
-            key={option.id}
-          />
-        ))
-      }
     />
   );
 };
