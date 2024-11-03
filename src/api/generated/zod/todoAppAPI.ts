@@ -17,7 +17,14 @@ export const getTodosQueryOffsetMin = 0;
 
 export const getTodosQueryParams = zod.object({
   "limit": zod.number().min(1).optional(),
-  "offset": zod.number().min(getTodosQueryOffsetMin).optional()
+  "offset": zod.number().min(getTodosQueryOffsetMin).optional(),
+  "labelIDs": zod.array(zod.number()).optional(),
+  "whereTodoInput": zod.object({
+  "title": zod.string().optional(),
+  "description": zod.string().optional(),
+  "priorityID": zod.number().optional(),
+  "statusID": zod.number().optional()
+}).optional()
 })
 
 export const getTodosResponseItem = zod.object({
@@ -40,6 +47,25 @@ export const getTodosResponseItem = zod.object({
 })
 })
 export const getTodosResponse = zod.array(getTodosResponseItem)
+
+
+/**
+ * @summary Search for todo items
+ */
+export const getSearchResponse = zod.object({
+  "labels": zod.array(zod.object({
+  "id": zod.number(),
+  "value": zod.string()
+})),
+  "priorities": zod.array(zod.object({
+  "id": zod.number(),
+  "name": zod.string()
+})),
+  "status": zod.array(zod.object({
+  "id": zod.number(),
+  "value": zod.string()
+}))
+})
 
 
 /**

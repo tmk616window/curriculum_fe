@@ -29,6 +29,7 @@ import type {
   CreateTodoResponse,
   ErrorResponse,
   GetTodosParams,
+  ResponseSearchTodo,
   Todo
 } from './todoAppAPI.schemas'
 import { useCustomInstance } from '../../libs/axios/index';
@@ -116,6 +117,96 @@ export function useGetTodos<TData = Awaited<ReturnType<ReturnType<typeof useGetT
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = useGetTodosQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * @summary Search for todo items
+ */
+export const useGetSearchHook = () => {
+        const getSearch = useCustomInstance<ResponseSearchTodo>();
+
+        return useCallback((
+    
+ signal?: AbortSignal
+) => {
+        return getSearch(
+          {url: `/search`, method: 'GET', signal
+    },
+          );
+        }, [getSearch])
+      }
+    
+
+export const getGetSearchQueryKey = () => {
+    return [`/search`] as const;
+    }
+
+    
+export const useGetSearchQueryOptions = <TData = Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError = ErrorType<ErrorResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSearchQueryKey();
+
+  const getSearch =  useGetSearchHook();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>> = ({ signal }) => getSearch(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetSearchQueryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>>
+export type GetSearchQueryError = ErrorType<ErrorResponse>
+
+
+export function useGetSearch<TData = Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError = ErrorType<ErrorResponse>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSearch<TData = Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError = ErrorType<ErrorResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSearch<TData = Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError = ErrorType<ErrorResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Search for todo items
+ */
+
+export function useGetSearch<TData = Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError = ErrorType<ErrorResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetSearchHook>>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = useGetSearchQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
