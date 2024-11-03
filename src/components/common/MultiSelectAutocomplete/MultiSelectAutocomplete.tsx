@@ -5,16 +5,15 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { useState } from "react";
 
-type MultiSelectAutocompleteProps = {
-  name: string;
+type MultiSelectAutocompleteProps<T extends FieldValues> = {
   label: string;
   labels: Label[];
-  control: Control<any, any>;
+  name: Path<T>;
+  control: Control<T>;
 };
 
-export const MultiSelectAutocomplete: React.FC<MultiSelectAutocompleteProps> = ({ name, label, labels, control }) => {
+export const MultiSelectAutocomplete = <T extends FieldValues>({ name, label, labels, control }: MultiSelectAutocompleteProps<T>) => {
   const [open, setOpen] = useState(false);
-
   return (
     <Controller
       name={name}

@@ -1,12 +1,12 @@
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { TextField as MuiTextField } from "@mui/material";
 
-type TextFieldProps = {
-  name: string;
-  control: Control<any, any>;
+type TextFieldProps<T extends FieldValues> = {
+  name: Path<T>;
+  control: Control<T>;
 };
 
-export const TextField: React.FC<TextFieldProps> = ({ name, control }) => {
+export const TextField = <T extends FieldValues>({ name, control }: TextFieldProps<T>) => {
   return (
     <Controller
       name={name}
@@ -19,7 +19,7 @@ export const TextField: React.FC<TextFieldProps> = ({ name, control }) => {
           fullWidth
           label={name}
           variant="outlined"
-          error={!!errors[name]?.message}
+          error={!!errors?.message}
         />
       )}
     />

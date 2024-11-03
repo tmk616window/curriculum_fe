@@ -1,9 +1,9 @@
-import { z, ZodSchema } from "zod";
-import { useForm as useReactHookForm } from "react-hook-form";
+import { TypeOf, ZodSchema } from "zod";
+import { UseFormReturn, useForm as useReactHookForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export const useForm = (schema: ZodSchema) => {
-  return useReactHookForm<z.infer<typeof schema>>({
+export const useForm = <T extends ZodSchema>(schema: T): UseFormReturn<TypeOf<T>> => {
+  return useReactHookForm<TypeOf<T>>({
     resolver: zodResolver(schema),
   });
 };
