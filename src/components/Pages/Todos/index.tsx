@@ -1,9 +1,6 @@
 import { useGetTodos } from '@/api/generated/todoAppAPI'
 import { TodoCreateDialog } from '@/components/feature/todoCreate/TodoCreateDialog'
-import { useCreateTodo } from '@/components/feature/todoCreate/useCreateTodo'
 import TodoList from '@/components/feature/todoList/todoList'
-import { Button } from '@mui/material'
-import { useCallback } from 'react'
 
 const TodoContent: React.FC = ({
 }) => {

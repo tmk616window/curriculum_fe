@@ -20,7 +20,7 @@ type todoCreateDialogProps = {
 export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, status, priorities, queryKey }) => {
   const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
-  const { control, reset, handleSubmit } = useForm<CreateTodoInput>({ schema: postTodoBody })
+  const { control, reset, handleSubmit } = useForm(postTodoBody)
   const { handleCreateTodo } = useCreateTodo()
 
   const handleCreate = useCallback<SubmitHandler<CreateTodoInput>>(async (data) => {

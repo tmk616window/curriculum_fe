@@ -1,12 +1,12 @@
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { TextField as MuiTextField } from "@mui/material";
 
-type TextFieldProps<T extends FieldValues> = {
-  name: Path<T>;
-  control: Control<T>;
+type TextFieldProps = {
+  name: string;
+  control: Control<any, any>;
 };
 
-export const TextField = <T extends FieldValues>({ name, control }: TextFieldProps<T>) => {
+export const TextField: React.FC<TextFieldProps> = ({ name, control }) => {
   return (
     <Controller
       name={name}
