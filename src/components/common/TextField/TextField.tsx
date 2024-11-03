@@ -11,17 +11,20 @@ export const TextField = <T extends FieldValues>({ name, control }: TextFieldPro
     <Controller
       name={name}
       control={control}
-      render={({ field, formState: { errors } }) => (
-        <MuiTextField
-          {...field}
-          value={field.value ?? ""}
-          onChange={field.onChange}
-          fullWidth
-          label={name}
-          variant="outlined"
-          error={!!errors?.message}
-        />
-      )}
-    />
+      render={({ field, formState: { errors } }) => {
+        console.log(errors);
+        return (
+          <>
+            <MuiTextField
+              {...field}
+              value={field.value ?? ""}
+              fullWidth
+              error={errors[name] ? true : false}
+              helperText={typeof errors[name]?.message === 'string' ? errors[name].message : ""}
+              label={name}
+            />
+          </>
+        );
+      }} />
   );
 };
