@@ -22,22 +22,20 @@ const TodoList: React.FC<TodoListProps> = ({
   queryKey
 }) => {
   const queryClient = useQueryClient()
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
-    setPage(newPage);
+    setSearch({ ...search, offset: (newPage * (search.limit || 5) - 1) })
+    queryClient.invalidateQueries({ queryKey })
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setSearch({ offset: parseInt(event.target.value, 5) })
+    setSearch({ limit: parseInt(event.target.value, 10) })
     queryClient.invalidateQueries({ queryKey })
-    setPage(0);
   };
 
   return (
@@ -87,12 +85,13 @@ const TodoList: React.FC<TodoListProps> = ({
         </Table>
       </TableContainer>
       <TablePagination
+        component="div"
         rowsPerPageOptions={[5, 10, 25, 50]}
-        rowsPerPage={rowsPerPage}
-        count={todoList.length}
-        page={page}
-        onPageChange={handleChangePage}
+        rowsPerPage={search.limit || 5}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        count={300}
+        page={search.offset ? (search.offset + 1) / (search.limit || 5) : 0}
+        onPageChange={handleChangePage}
       />
     </>
   )
