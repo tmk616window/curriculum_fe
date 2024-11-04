@@ -1,6 +1,9 @@
 import { Todo } from '@/api/generated/todoAppAPI.schemas'
-import { Paper, Stack, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField } from '@mui/material'
+import { IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField } from '@mui/material'
 import { useState } from 'react'
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
 
 type TodoListProps = {
   todoList: Todo[]
@@ -34,7 +37,7 @@ const TodoList: React.FC<TodoListProps> = ({
             <TableCell sx={{ paddingY: 0.5 }}>完了日</TableCell>
             <TableCell sx={{ paddingY: 0.5 }}>説明</TableCell>
             <TableCell sx={{ paddingY: 0.5 }}>ラベル</TableCell>
-            <TableCell sx={{ paddingY: 0.5 }}>入力</TableCell>
+            <TableCell sx={{ paddingY: 0.5 }}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,8 +54,16 @@ const TodoList: React.FC<TodoListProps> = ({
               <TableCell sx={{ paddingY: 0.5 }}>
                 {todo.labels ? todo.labels.map(label => label.value).join(', ') : '-'}
               </TableCell>
-              <TableCell sx={{ paddingY: 0.5 }}>
-                <TextField type="text" label="入力" fullWidth />
+              <TableCell sx={{ paddingY: 0.5, display: 'flex', gap: 1 }}>
+                <IconButton color="success" >
+                  <DoneIcon />
+                </IconButton>
+                <IconButton color="primary" >
+                  <EditIcon />
+                </IconButton>
+                <IconButton color="secondary" >
+                  <DeleteIcon />
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}
