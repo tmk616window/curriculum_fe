@@ -12,22 +12,9 @@ type TodoListProps = {
 const TodoList: React.FC<TodoListProps> = ({
   todoList
 }) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-
   return (
-    <TableContainer component={Paper}>
-      <Table>
+    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell sx={{ paddingY: 0.5 }}>タイトル</TableCell>
@@ -55,13 +42,13 @@ const TodoList: React.FC<TodoListProps> = ({
                 {todo.labels ? todo.labels.map(label => label.value).join(', ') : '-'}
               </TableCell>
               <TableCell sx={{ paddingY: 0.5, display: 'flex', gap: 1 }}>
-                <IconButton color="success" >
+                <IconButton color="success">
                   <DoneIcon />
                 </IconButton>
-                <IconButton color="primary" >
+                <IconButton color="primary">
                   <EditIcon />
                 </IconButton>
-                <IconButton color="secondary" >
+                <IconButton color="secondary">
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
@@ -69,6 +56,14 @@ const TodoList: React.FC<TodoListProps> = ({
           ))}
         </TableBody>
       </Table>
+      {/* <TablePagination
+        component="div"
+        count={100}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      /> */}
     </TableContainer>
   )
 }
