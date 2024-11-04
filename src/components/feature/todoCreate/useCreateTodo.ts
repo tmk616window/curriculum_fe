@@ -1,6 +1,5 @@
 import { usePostTodo } from "@/api/generated/todoAppAPI"
 import { CreateTodoInput, Todo } from "@/api/generated/todoAppAPI.schemas"
-import { QueryKey, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { useCallback } from "react"
 

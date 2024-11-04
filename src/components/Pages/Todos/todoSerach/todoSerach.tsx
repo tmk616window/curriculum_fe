@@ -1,5 +1,5 @@
 
-import { Label, Priority, Status, Todo } from '@/api/generated/todoAppAPI.schemas'
+import { Label, Priority, Status } from '@/api/generated/todoAppAPI.schemas'
 import { getTodosQueryParams } from '@/api/generated/zod/todoAppAPI'
 import { MultiSelectAutocomplete } from '@/components/common/MultiSelectAutocomplete'
 import { Select } from '@/components/common/Select/Select'
