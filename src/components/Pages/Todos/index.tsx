@@ -44,7 +44,8 @@ const TodoContent: React.FC = ({
         queryKey={queryKey}
       />
       <TodoList
-        todoList={data || []}
+        todoList={data?.todoList || []}
+        pageCount={data?.pageCount || 0}
         setSearch={setSearch}
         search={search}
         queryKey={queryKey}

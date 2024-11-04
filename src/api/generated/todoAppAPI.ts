@@ -28,9 +28,9 @@ import type {
   CreateTodoInput,
   CreateTodoResponse,
   ErrorResponse,
+  GetTodos200,
   GetTodosParams,
-  ResponseSearchTodo,
-  Todo
+  ResponseSearchTodo
 } from './todoAppAPI.schemas'
 import { useCustomInstance } from '../../libs/axios/index';
 import type { ErrorType } from '../../libs/axios/index';
@@ -41,7 +41,7 @@ import type { ErrorType } from '../../libs/axios/index';
  * @summary Get all todo items
  */
 export const useGetTodosHook = () => {
-        const getTodos = useCustomInstance<Todo[]>();
+        const getTodos = useCustomInstance<GetTodos200>();
 
         return useCallback((
     params?: GetTodosParams,

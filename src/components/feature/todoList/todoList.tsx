@@ -10,6 +10,7 @@ import { QueryKey, useQueryClient } from '@tanstack/react-query';
 
 type TodoListProps = {
   todoList: Todo[]
+  pageCount: number
   setSearch: (search: TypeOf<typeof getTodosQueryParams>) => void
   search: TypeOf<typeof getTodosQueryParams>
   queryKey: QueryKey
@@ -17,6 +18,7 @@ type TodoListProps = {
 
 const TodoList: React.FC<TodoListProps> = ({
   todoList,
+  pageCount,
   setSearch,
   search,
   queryKey
@@ -89,7 +91,7 @@ const TodoList: React.FC<TodoListProps> = ({
         rowsPerPageOptions={[5, 10, 25, 50]}
         rowsPerPage={search.limit || 5}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        count={300}
+        count={pageCount}
         page={search.offset ? (search.offset + 1) / (search.limit || 5) : 0}
         onPageChange={handleChangePage}
       />

@@ -5,6 +5,12 @@
  * An API for managing todo items.
  * OpenAPI spec version: 1.0.0
  */
+export type GetTodos200 = {
+  /** Total number of pages */
+  pageCount?: number;
+  todoList?: Todo[];
+};
+
 export type GetTodosParams = {
 /**
  * The number of items to return
@@ -82,7 +88,7 @@ export interface Todo {
   description?: string;
   finishedAt?: string;
   id: number;
-  labels?: Label[];
+  labels: Label[];
   priority: Priority;
   status: Status;
   title: string;

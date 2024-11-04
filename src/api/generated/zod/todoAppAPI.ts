@@ -25,7 +25,8 @@ export const getTodosQueryParams = zod.object({
   "description": zod.string().optional()
 })
 
-export const getTodosResponseItem = zod.object({
+export const getTodosResponse = zod.object({
+  "todoList": zod.array(zod.object({
   "id": zod.number(),
   "title": zod.string(),
   "description": zod.string().optional(),
@@ -33,7 +34,7 @@ export const getTodosResponseItem = zod.object({
   "labels": zod.array(zod.object({
   "id": zod.number(),
   "value": zod.string()
-})).optional(),
+})),
   "finishedAt": zod.string().datetime().optional(),
   "priority": zod.object({
   "id": zod.number(),
@@ -43,8 +44,9 @@ export const getTodosResponseItem = zod.object({
   "id": zod.number(),
   "value": zod.string()
 })
+})).optional(),
+  "pageCount": zod.number().optional()
 })
-export const getTodosResponse = zod.array(getTodosResponseItem)
 
 
 /**
