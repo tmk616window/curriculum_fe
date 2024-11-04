@@ -35,9 +35,9 @@ const TodoSearch: React.FC<TodoSearchProps> = ({
   }, [queryClient, queryKey])
 
   return (
-    <Paper sx={{ padding: 3, display: 'flex' }}>
-      <Stack spacing={3} alignItems="center" justifyContent={'center'}>
-        <Grid container spacing={3} justifyContent="center">
+    <Paper sx={{ padding: 3 }}>
+      <Stack spacing={3} alignItems="center" >
+        <Grid container spacing={1} justifyContent="center">
           <Grid item xs={12} sm={6}>
             <TextField name="title" control={control} />
           </Grid>
