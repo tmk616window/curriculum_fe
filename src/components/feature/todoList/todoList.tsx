@@ -24,7 +24,7 @@ const TodoList: React.FC<TodoListProps> = ({
   const queryClient = useQueryClient()
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
     setSearch({ ...search, offset: (newPage * (search.limit || 5) - 1) })
