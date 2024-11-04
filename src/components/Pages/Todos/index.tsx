@@ -5,6 +5,7 @@ import TodoList from '@/components/feature/todoList/todoList'
 import { useState } from 'react'
 import { TypeOf } from 'zod'
 import TodoSearch from './todoSerach/todoSerach'
+import { Stack } from '@mui/material'
 
 const TodoContent: React.FC = ({
 }) => {
@@ -28,7 +29,7 @@ const TodoContent: React.FC = ({
   }
 
   return (
-    <>
+    <Stack sx={{ m: 4 }}>
       <TodoSearch
         labels={sdata?.labels || []}
         priorities={sdata?.priorities || []}
@@ -43,7 +44,7 @@ const TodoContent: React.FC = ({
         queryKey={queryKey}
       />
       <TodoList todoList={data || []} />
-    </>
+    </Stack>
   )
 }
 

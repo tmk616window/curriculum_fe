@@ -1,5 +1,5 @@
 import { useForm } from "@/hooks/useForm";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, MenuItem } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, MenuItem, Stack } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useCreateTodo } from "./useCreateTodo";
 import { postTodoBody } from "@/api/generated/zod/todoAppAPI";
@@ -40,11 +40,15 @@ export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, stat
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>作成する</Button>
-      <Dialog open={open} >
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 2 }}>
+        <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+          作成する
+        </Button>
+      </Box>
+      <Dialog open={open} maxWidth="sm" fullWidth>
         <DialogTitle>Create Todo</DialogTitle>
-        <DialogContent>
-          <FormControl>
+        <DialogContent dividers>
+          <Stack spacing={2} mt={1}>
             <TextField
               name="title"
               control={control}
@@ -54,30 +58,44 @@ export const TodoCreateDialog: React.FC<todoCreateDialogProps> = ({ labels, stat
               control={control}
             />
             <Select
-              label="Priority"
+              label="優先度"
               name="priorityID"
               control={control}
             >
-              {priorities.map((p) => <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>)}
+              {priorities.map((p) => (
+                <MenuItem key={p.id} value={p.id}>
+                  {p.name}
+                </MenuItem>
+              ))}
             </Select>
             <Select
-              label="Status"
+              label="ステータス"
               name="statusID"
               control={control}
             >
-              {status.map((s) => <MenuItem key={s.id} value={s.id}>{s.value}</MenuItem>)}
+              {status.map((s) => (
+                <MenuItem key={s.id} value={s.id}>
+                  {s.value}
+                </MenuItem>
+              ))}
             </Select>
             <MultiSelectAutocomplete
-              label="Labels"
+              label="ラベル"
               name="labelIDs"
               control={control}
               labels={labels}
             />
-          </FormControl>
+          </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>閉じる</Button>
-          <Button onClick={handleSubmit(async (data) => await handleCreate(data))} >
+          <Button onClick={handleClose} color="secondary" variant="outlined">
+            閉じる
+          </Button>
+          <Button
+            onClick={handleSubmit(async (data) => await handleCreate(data))}
+            color="primary"
+            variant="contained"
+          >
             作成する
           </Button>
         </DialogActions>

@@ -5,7 +5,7 @@ import { MultiSelectAutocomplete } from '@/components/common/MultiSelectAutocomp
 import { Select } from '@/components/common/Select/Select'
 import { TextField } from '@/components/common/TextField'
 import { useForm } from '@/hooks/useForm'
-import { Button, MenuItem, Stack } from '@mui/material'
+import { Box, Button, Grid, MenuItem, Paper, Stack } from '@mui/material'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { SubmitHandler } from 'react-hook-form'
@@ -32,49 +32,58 @@ const TodoSearch: React.FC<TodoSearchProps> = ({
   const handleSearch = useCallback<SubmitHandler<TypeOf<typeof getTodosQueryParams>>>(async (formData) => {
     setSearch(formData)
     queryClient.invalidateQueries({ queryKey })
-    reset()
   }, [queryClient, queryKey])
 
   return (
-    <Stack>
-      <TextField
-        name="title"
-        control={control}
-      />
-      <TextField
-        name="description"
-        control={control}
-      />
-      <Select
-        label="Priority"
-        name="priorityID"
-        control={control}
-        children={priorities.map((priority) => (
-          <MenuItem key={priority.id} value={priority.id}>
-            {priority.name}
-          </MenuItem>
-        ))}
-      />
-      <Select
-        label="Status"
-        name="statusID"
-        control={control}
-        children={status.map((s) => (
-          <MenuItem key={s.id} value={s.id}>
-            {s.value}
-          </MenuItem>
-        ))}
-      />
-      <MultiSelectAutocomplete
-        label="Labels"
-        name="labelIDs"
-        control={control}
-        labels={labels}
-      />
-      <Button onClick={handleSubmit(handleSearch)}>
-        検索
-      </Button>
-    </Stack>
+    <Paper sx={{ padding: 3, display: 'flex' }}>
+      <Stack spacing={3} alignItems="center" justifyContent={'center'}>
+        <Grid container spacing={3} justifyContent="center">
+          <Grid item xs={12} sm={6}>
+            <TextField name="title" control={control} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField name="description" control={control} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Select label="優先度" name="priorityID" control={control} >
+              {priorities.map((priority) => (
+                <MenuItem key={priority.id} value={priority.id}>
+                  {priority.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Select label="ステータス" name="statusID" control={control} >
+              {status.map((s) => (
+                <MenuItem key={s.id} value={s.id}>
+                  {s.value}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <MultiSelectAutocomplete
+              label="ラベル"
+              name="labelIDs"
+              control={control}
+              labels={labels}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit(handleSearch)}
+              fullWidth
+              sx={{ height: '100%' }}
+            >
+              検索
+            </Button>
+          </Grid>
+        </Grid>
+      </Stack>
+    </Paper>
   )
 }
 
