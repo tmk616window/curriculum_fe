@@ -27,7 +27,7 @@ const TodoSearch: React.FC<TodoSearchProps> = ({
   setSearch
 }) => {
   const queryClient = useQueryClient()
-  const { control, reset, handleSubmit } = useForm(getTodosQueryParams)
+  const { control, handleSubmit } = useForm(getTodosQueryParams)
 
   const handleSearch = useCallback<SubmitHandler<TypeOf<typeof getTodosQueryParams>>>(async (formData) => {
     setSearch(formData)
@@ -35,7 +35,7 @@ const TodoSearch: React.FC<TodoSearchProps> = ({
   }, [queryClient, queryKey])
 
   return (
-    <Paper sx={{ padding: 3 }}>
+    <Paper sx={{ padding: 4 }}>
       <Stack spacing={3} alignItems="center" >
         <Grid container spacing={1} justifyContent="center">
           <Grid item xs={12} sm={6}>
