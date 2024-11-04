@@ -43,7 +43,12 @@ const TodoContent: React.FC = ({
         status={sdata?.status || []}
         queryKey={queryKey}
       />
-      <TodoList todoList={data || []} />
+      <TodoList
+        todoList={data || []}
+        setSearch={setSearch}
+        search={search}
+        queryKey={queryKey}
+      />
     </Stack>
   )
 }
