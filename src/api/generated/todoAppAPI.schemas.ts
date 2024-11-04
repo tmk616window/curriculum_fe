@@ -5,6 +5,34 @@
  * An API for managing todo items.
  * OpenAPI spec version: 1.0.0
  */
+export type GetTodosParams = {
+/**
+ * The number of items to return
+ */
+limit?: number;
+/**
+ * The number of items to skip before starting to collect the result set
+ */
+offset?: number;
+labelIDs?: number[];
+/**
+ * Criteria to filter todo items
+ */
+priorityID?: number;
+/**
+ * Criteria to filter todo items
+ */
+statusID?: number;
+/**
+ * Criteria to filter todo items
+ */
+title?: string;
+/**
+ * Criteria to filter todo items
+ */
+description?: string;
+};
+
 export interface ErrorResponse {
   error: string;
 }
@@ -23,22 +51,6 @@ export interface WhereTodoInput {
   statusID?: number;
   title?: string;
 }
-
-export type GetTodosParams = {
-/**
- * The number of items to return
- */
-limit?: number;
-/**
- * The number of items to skip before starting to collect the result set
- */
-offset?: number;
-labelIDs?: number[];
-/**
- * Criteria to filter todo items
- */
-whereTodoInput?: WhereTodoInput;
-};
 
 export interface CreateTodoResponse {
   id: number;

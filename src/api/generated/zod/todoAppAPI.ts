@@ -19,12 +19,10 @@ export const getTodosQueryParams = zod.object({
   "limit": zod.number().min(1).optional(),
   "offset": zod.number().min(getTodosQueryOffsetMin).optional(),
   "labelIDs": zod.array(zod.number()).optional(),
-  "whereTodoInput": zod.object({
-  "title": zod.string().optional(),
-  "description": zod.string().optional(),
   "priorityID": zod.number().optional(),
-  "statusID": zod.number().optional()
-}).optional()
+  "statusID": zod.number().optional(),
+  "title": zod.string().optional(),
+  "description": zod.string().optional()
 })
 
 export const getTodosResponseItem = zod.object({

@@ -1,14 +1,19 @@
 import { useGetSearch, useGetTodos } from '@/api/generated/todoAppAPI'
+import { getTodosQueryParams } from '@/api/generated/zod/todoAppAPI'
 import { TodoCreateDialog } from '@/components/feature/todoCreate/TodoCreateDialog'
 import TodoList from '@/components/feature/todoList/todoList'
+import { useState } from 'react'
+import { TypeOf } from 'zod'
+import TodoSearch from './todoSerach/todoSerach'
 
 const TodoContent: React.FC = ({
 }) => {
-  const { data: sdata, error: serror, isLoading: sIsLoading } = useGetSearch()
-  const { data, error, isLoading, queryKey } = useGetTodos({
-    limit: 10,
+  const [search, setSearch] = useState<TypeOf<typeof getTodosQueryParams>>({
+    limit: 5,
     offset: 0,
   })
+  const { data: sdata, error: serror, isLoading: sIsLoading } = useGetSearch()
+  const { data, error, isLoading, queryKey } = useGetTodos(search)
 
   if (isLoading || sIsLoading) {
     return <div>Loading...</div>
@@ -24,6 +29,13 @@ const TodoContent: React.FC = ({
 
   return (
     <>
+      <TodoSearch
+        labels={sdata?.labels || []}
+        priorities={sdata?.priorities || []}
+        status={sdata?.status || []}
+        queryKey={queryKey}
+        setSearch={setSearch}
+      />
       <TodoCreateDialog
         labels={sdata?.labels || []}
         priorities={sdata?.priorities || []}
