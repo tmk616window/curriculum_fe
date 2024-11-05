@@ -5,41 +5,31 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
 import { getTodosQueryParams } from '@/api/generated/zod/todoAppAPI';
 import { TypeOf } from 'zod';
-import { QueryKey, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
 type TodoListProps = {
   todoList: Todo[]
   pageCount: number
-  setSearch: (search: TypeOf<typeof getTodosQueryParams>) => void
   search: TypeOf<typeof getTodosQueryParams>
-  queryKey: QueryKey
 }
 
 const TodoList: React.FC<TodoListProps> = ({
   todoList,
   pageCount,
-  setSearch,
   search,
-  queryKey
 }) => {
-  const queryClient = useQueryClient()
   const router = useRouter()
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
-    setSearch({ ...search, offset: Math.max(newPage * (search.limit || 5) - 1, 0) })
-    queryClient.invalidateQueries({ queryKey })
     router.push({ query: { ...search, offset: Math.max(newPage * (search.limit || 5) - 1, 0) } })
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setSearch({ ...search, limit: parseInt(event.target.value, 10) })
-    queryClient.invalidateQueries({ queryKey })
     router.push({ query: { ...search, limit: parseInt(event.target.value, 10) } })
   };
 

@@ -6,7 +6,6 @@ import { Select } from '@/components/common/Select/Select'
 import { TextField } from '@/components/common/TextField'
 import { useForm } from '@/hooks/useForm'
 import { Button, Grid, MenuItem, Paper, Stack } from '@mui/material'
-import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { SubmitHandler } from 'react-hook-form'
@@ -16,28 +15,29 @@ type TodoSearchProps = {
   labels: Label[]
   priorities: Priority[]
   status: Status[]
-  queryKey: QueryKey
-  search: TypeOf<typeof getTodosQueryParams>
-  setSearch: (search: TypeOf<typeof getTodosQueryParams>) => void
 }
 
 const TodoSearch: React.FC<TodoSearchProps> = ({
   labels,
   priorities,
   status,
-  queryKey,
-  search,
-  setSearch
 }) => {
-  const queryClient = useQueryClient()
   const { control, handleSubmit } = useForm(getTodosQueryParams)
   const router = useRouter()
 
   const handleSearch = useCallback<SubmitHandler<TypeOf<typeof getTodosQueryParams>>>(async (formData) => {
-    setSearch({ ...search, ...formData })
-    queryClient.invalidateQueries({ queryKey })
-    router.push({ query: { ...search, ...formData } });
-  }, [queryClient, queryKey])
+    router.push({
+      query: {
+        offset: 0,
+        limit: 10,
+        title: formData.title,
+        description: formData.description,
+        priorityID: formData.priorityID,
+        statusID: formData.statusID,
+        labelIDs: formData.labelIDs,
+      }
+    });
+  }, [])
 
   return (
     <Paper sx={{ padding: 4 }}>

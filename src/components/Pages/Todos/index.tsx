@@ -2,19 +2,36 @@ import { useGetSearch, useGetTodos } from '@/api/generated/todoAppAPI'
 import { getTodosQueryParams } from '@/api/generated/zod/todoAppAPI'
 import { TodoCreateDialog } from '@/components/feature/todoCreate/TodoCreateDialog'
 import TodoList from '@/components/feature/todoList/todoList'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TypeOf } from 'zod'
 import TodoSearch from './todoSerach/todoSerach'
 import { Stack } from '@mui/material'
+import { useRouter } from 'next/router'
 
 const TodoContent: React.FC = ({
 }) => {
+  const router = useRouter()
+  const { query } = router
   const [search, setSearch] = useState<TypeOf<typeof getTodosQueryParams>>({
-    limit: 10,
     offset: 0,
+    limit: 10,
   })
   const { data: sdata, error: serror, isLoading: sIsLoading } = useGetSearch()
-  const { data, error, isLoading, queryKey } = useGetTodos(search)
+  const { data, error, isLoading, queryKey, refetch } = useGetTodos(search)
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    setSearch({
+      offset: query.offset ? Number(query.offset) : 0,
+      limit: query.limit ? Number(query.limit) : 10,
+      title: query.title ? String(query.title) : undefined,
+      description: query.description ? String(query.description) : undefined,
+      priorityID: query.priorityID ? Number(query.priorityID) : undefined,
+      statusID: query.statusID ? Number(query.statusID) : undefined,
+      labelIDs: query.labelIDs ? String(query.labelIDs).split(',').map(Number) : undefined,
+    })
+    refetch()
+  }, [query, router]);
 
   if (isLoading || sIsLoading) {
     return <div>Loading...</div>
@@ -34,9 +51,6 @@ const TodoContent: React.FC = ({
         labels={sdata?.labels || []}
         priorities={sdata?.priorities || []}
         status={sdata?.status || []}
-        queryKey={queryKey}
-        search={search}
-        setSearch={setSearch}
       />
       <TodoCreateDialog
         labels={sdata?.labels || []}
@@ -47,9 +61,7 @@ const TodoContent: React.FC = ({
       <TodoList
         todoList={data?.todoList || []}
         pageCount={data?.pageCount || 0}
-        setSearch={setSearch}
         search={search}
-        queryKey={queryKey}
       />
     </Stack>
   )
