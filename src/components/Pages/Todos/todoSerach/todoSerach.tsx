@@ -16,6 +16,7 @@ type TodoSearchProps = {
   priorities: Priority[]
   status: Status[]
   queryKey: QueryKey
+  search: TypeOf<typeof getTodosQueryParams>
   setSearch: (search: TypeOf<typeof getTodosQueryParams>) => void
 }
 
@@ -24,13 +25,14 @@ const TodoSearch: React.FC<TodoSearchProps> = ({
   priorities,
   status,
   queryKey,
+  search,
   setSearch
 }) => {
   const queryClient = useQueryClient()
   const { control, handleSubmit } = useForm(getTodosQueryParams)
 
   const handleSearch = useCallback<SubmitHandler<TypeOf<typeof getTodosQueryParams>>>(async (formData) => {
-    setSearch(formData)
+    setSearch({ ...search, ...formData })
     queryClient.invalidateQueries({ queryKey })
   }, [queryClient, queryKey])
 

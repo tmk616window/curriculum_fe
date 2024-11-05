@@ -1,6 +1,5 @@
 import { Todo } from '@/api/generated/todoAppAPI.schemas'
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
-import { useState } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
@@ -36,7 +35,7 @@ const TodoList: React.FC<TodoListProps> = ({
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setSearch({ limit: parseInt(event.target.value, 10) })
+    setSearch({ ...search, limit: parseInt(event.target.value, 10) })
     queryClient.invalidateQueries({ queryKey })
   };
 

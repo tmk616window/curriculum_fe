@@ -10,7 +10,7 @@ import { Stack } from '@mui/material'
 const TodoContent: React.FC = ({
 }) => {
   const [search, setSearch] = useState<TypeOf<typeof getTodosQueryParams>>({
-    limit: 5,
+    limit: 10,
     offset: 0,
   })
   const { data: sdata, error: serror, isLoading: sIsLoading } = useGetSearch()
@@ -35,6 +35,7 @@ const TodoContent: React.FC = ({
         priorities={sdata?.priorities || []}
         status={sdata?.status || []}
         queryKey={queryKey}
+        search={search}
         setSearch={setSearch}
       />
       <TodoCreateDialog
