@@ -28,7 +28,7 @@ const TodoList: React.FC<TodoListProps> = ({
     _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
-    setSearch({ ...search, offset: (newPage * (search.limit || 5) - 1) })
+    setSearch({ ...search, offset: Math.max(newPage * (search.limit || 5) - 1, 0) })
     queryClient.invalidateQueries({ queryKey })
   };
 
